@@ -5,14 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registo de Vendas Tech</title>
     <style>
-        /* CSS: Estilo da página para ficar bonito no telemóvel */
+        /* CSS: Adicionei cores diferentes para os botões para não haver confusão */
         body { font-family: sans-serif; text-align: center; padding: 20px; background-color: #f4f4f9; }
         .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 10px; }
+        
+        /* Estilo comum aos botões */
         button { 
-            background-color: #25D366; color: white; border: none; 
+            color: white; border: none; 
             padding: 15px 30px; font-size: 18px; border-radius: 10px; cursor: pointer;
             width: 100%; margin-top: 10px;
         }
+        
+        /* Botão Verde para Registar */
+        .btn-venda { background-color: #25D366; }
+        
+        /* Botão Vermelho para Reset */
+        .btn-reset { background-color: #ff4d4d; margin-top: 30px; font-size: 16px; padding: 12px; }
+        
         select { padding: 10px; width: 100%; font-size: 16px; margin-bottom: 20px; border-radius: 5px; }
     </style>
 </head>
@@ -31,41 +40,49 @@
             <option value="Martinho">Martinho</option>
         </select>
 
-        <button onclick="enviarVenda()">✅ Registar +1 Venda</button>
+        <button class="btn-venda" onclick="enviarVenda()">✅ Registar +1 Venda</button>
+        
+        <hr style="border: 0; border-top: 1px solid #eee; margin: 25px 0;">
+        
+        <button class="btn-reset" onclick="resetarVendas()">🗑️ Reiniciar a Zero</button>
     </div>
 
     <script>
-        // JAVASCRIPT: A lógica que faz a magia de somar e abrir o WhatsApp
+        // Função 1: Registar a venda (igual à que já tínhamos)
         function enviarVenda() {
-            // 1. Descobrir quem foi selecionado na lista
             const nome = document.getElementById('membro').value;
-            
-            // 2. Criar a chave para guardar na memória do telemóvel (Ex: "vendas_Luis")
             const chaveMemoria = 'vendas_' + nome;
-
-            // 3. Ir buscar o número de vendas que já estão guardadas
             let total = localStorage.getItem(chaveMemoria);
 
-            // 4. Se o total for vazio (primeira vez a usar), começa do zero
             if (!total) {
                 total = 0;
             } else {
-                // Se já existir um número, transformamos esse texto num número matemático
                 total = parseInt(total); 
             }
 
-            // 5. Somar 1 venda ao total
             total = total + 1;
-
-            // 6. Guardar o novo total no telemóvel para não se perder
             localStorage.setItem(chaveMemoria, total);
 
-            // 7. Escrever a mensagem final que vai aparecer no grupo
-            const mensagem = `🚀 *NOVA VENDA TECH!*\n👤 Colaborador: *${nome}*\n📈 Acaba de somar +1 venda!\n🏆 Total do ${nome}: *${total} vendas*`;
-            
-            // 8. Criar o link e abrir o WhatsApp com a mensagem pronta a enviar
+            const mensagem = `🚀 *NOVA VENDA TECH!*\n👤 Colaborador: *${nome}*\n📈 Acaba de somar +1 venda!\n🏆 Total: *${total} vendas*`;
             const url = `https://wa.me/?text=${encodeURIComponent(mensagem)}`;
             window.open(url, '_blank');
+        }
+
+        // Função 2: NOVA - Limpar a memória
+        function resetarVendas() {
+            const nome = document.getElementById('membro').value;
+            const chaveMemoria = 'vendas_' + nome;
+            
+            // O comando 'confirm' cria um aviso no ecrã. Se o utilizador clicar em "OK", a variável confirmacao será Verdadeira (true).
+            const confirmacao = confirm(`⚠️ Atenção!\nTens a certeza que queres apagar todas as vendas do(a) ${nome}?\n\nO contador vai voltar a zero.`);
+            
+            if (confirmacao) {
+                // O comando 'removeItem' vai à memória do telemóvel e apaga aquele registo específico
+                localStorage.removeItem(chaveMemoria);
+                
+                // Um pequeno aviso a confirmar que correu tudo bem
+                alert(`✅ O contador do(a) ${nome} foi reiniciado a zero com sucesso!`);
+            }
         }
     </script>
 
