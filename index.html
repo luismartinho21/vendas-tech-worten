@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registo de Vendas Tech</title>
+    <style>
+        /* CSS: Deixa o visual limpo e fácil de usar no telemóvel */
+        body { font-family: sans-serif; text-align: center; padding: 20px; background-color: #f4f4f9; }
+        .card { background: white; padding: 20px; border-radius: 15px; shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 10px; }
+        button { 
+            background-color: #25D366; color: white; border: none; 
+            padding: 15px 30px; font-size: 18px; border-radius: 10px; cursor: pointer;
+            width: 100%; margin-top: 10px;
+        }
+        select { padding: 10px; width: 100%; font-size: 16px; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h2>🚀 Plano Tech: Registo</h2>
+        <p>Seleciona o teu nome e clica para enviar ao grupo:</p>
+        
+        <select id="membro">
+            <option value="João">João</option>
+            <option value="Diogo">Diogo</option>
+            <option value="Tiago">Tiago</option>
+            <option value="Luis">Luis</option>
+            <option value="Andre">Andre</option>
+            <option value="Martinho">Martinho</option>
+        </select>
+
+        <button onclick="enviarVenda()">✅ Registar +1 Venda</button>
+    </div>
+
+    <script>
+        // JAVASCRIPT: A lógica que cria o link do WhatsApp
+        function enviarVenda() {
+            const nome = document.getElementById('membro').value;
+            const mensagem = `🚀 *NOVA VENDA TECH!*\n👤 Colaborador: *${nome}*\n📈 Acaba de somar +1 venda à equipa!`;
+            
+            // Cria o link do WhatsApp (Substitui pelo link do teu grupo ou deixa em branco para escolher o chat)
+            const url = `https://wa.me/?text=${encodeURIComponent(mensagem)}`;
+            
+            window.open(url, '_blank');
+        }
+    </script>
+
+</body>
+</html>
