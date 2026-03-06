@@ -5,22 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registo de Vendas Tech</title>
     <style>
-        /* CSS: Deixa o visual limpo e fácil de usar no telemóvel */
+        /* CSS: Estilo da página para ficar bonito no telemóvel */
         body { font-family: sans-serif; text-align: center; padding: 20px; background-color: #f4f4f9; }
-        .card { background: white; padding: 20px; border-radius: 15px; shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 10px; }
+        .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 10px; }
         button { 
             background-color: #25D366; color: white; border: none; 
             padding: 15px 30px; font-size: 18px; border-radius: 10px; cursor: pointer;
             width: 100%; margin-top: 10px;
         }
-        select { padding: 10px; width: 100%; font-size: 16px; margin-bottom: 10px; }
+        select { padding: 10px; width: 100%; font-size: 16px; margin-bottom: 20px; border-radius: 5px; }
     </style>
 </head>
 <body>
 
     <div class="card">
         <h2>🚀 Plano Tech: Registo</h2>
-        <p>Seleciona o teu nome e clica para enviar ao grupo:</p>
+        <p>Seleciona o teu nome e regista a venda:</p>
         
         <select id="membro">
             <option value="João">João</option>
@@ -35,14 +35,36 @@
     </div>
 
     <script>
-        // JAVASCRIPT: A lógica que cria o link do WhatsApp
+        // JAVASCRIPT: A lógica que faz a magia de somar e abrir o WhatsApp
         function enviarVenda() {
+            // 1. Descobrir quem foi selecionado na lista
             const nome = document.getElementById('membro').value;
-            const mensagem = `🚀 *NOVA VENDA TECH!*\n👤 Colaborador: *${nome}*\n📈 Acaba de somar +1 venda à equipa!`;
             
-            // Cria o link do WhatsApp (Substitui pelo link do teu grupo ou deixa em branco para escolher o chat)
+            // 2. Criar a chave para guardar na memória do telemóvel (Ex: "vendas_Luis")
+            const chaveMemoria = 'vendas_' + nome;
+
+            // 3. Ir buscar o número de vendas que já estão guardadas
+            let total = localStorage.getItem(chaveMemoria);
+
+            // 4. Se o total for vazio (primeira vez a usar), começa do zero
+            if (!total) {
+                total = 0;
+            } else {
+                // Se já existir um número, transformamos esse texto num número matemático
+                total = parseInt(total); 
+            }
+
+            // 5. Somar 1 venda ao total
+            total = total + 1;
+
+            // 6. Guardar o novo total no telemóvel para não se perder
+            localStorage.setItem(chaveMemoria, total);
+
+            // 7. Escrever a mensagem final que vai aparecer no grupo
+            const mensagem = `🚀 *NOVA VENDA TECH!*\n👤 Colaborador: *${nome}*\n📈 Acaba de somar +1 venda!\n🏆 Total do ${nome}: *${total} vendas*`;
+            
+            // 8. Criar o link e abrir o WhatsApp com a mensagem pronta a enviar
             const url = `https://wa.me/?text=${encodeURIComponent(mensagem)}`;
-            
             window.open(url, '_blank');
         }
     </script>
